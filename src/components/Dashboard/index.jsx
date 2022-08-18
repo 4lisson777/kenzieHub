@@ -1,14 +1,18 @@
 import logoImg from '../../assets/Logo.png';
 import { Navbar, Botao, Header, Main } from './styles';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { UserContext } from '../../Context/UserContext';
+import Loading from '../Loading';
+import ModalAdd from '../ModalAdd';
+import ModalEditDel from '../ModalEditDel';
 
-const Dashboard = ({ user }) => {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem('@TOKEN');
-    localStorage.removeItem('@USERID');
-    navigate('/login', { replace: true });
-  };
+const Dashboard = () => {
+  const { handleLogout, user, loading, setAddModal } = useContext(UserContext);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <>
@@ -24,13 +28,25 @@ const Dashboard = ({ user }) => {
         </div>
       </Header>
       <Main>
-        <div>
-          <h2>Que pena! Estamos em desenvolvimento :&#40;</h2>
-          <p>
-            Nossa aplicação está em desenvolvimento, em breve teremos novidades
-          </p>
+        <div className="addTech">
+          <h2>Tecnologias</h2>
+          <button onClick={() => setAddModal(true)}>+</button>
         </div>
+        <ul>
+          {user.techs.length === 0 ? (
+            <p>Nenhuma Tech cadastrada aqui...</p>
+          ) : (
+            user.techs.map((tech) => (
+              <li key={tech.id}>
+                <span>{tech.title}</span>
+                <span>{tech.status}</span>
+              </li>
+            ))
+          )}
+        </ul>
       </Main>
+      <ModalAdd />
+      <ModalEditDel />
     </>
   );
 };

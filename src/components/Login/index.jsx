@@ -13,41 +13,21 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { userLogin } from '../../validators/userLogin';
-import api from '../../services/api';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading';
+import { useContext } from 'react';
+import { UserContext } from '../../Context/UserContext';
 
-const Login = ({ setUser }) => {
-  const navigate = useNavigate();
+const Login = () => {
+  const { loading, loginUser } = useContext(UserContext);
 
   const [visibility, setVisibility] = useState('password');
   const [focus, setFocus] = useState('');
-  const [loading, setLoading] = useState(false);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(userLogin) });
-
-  const loginUser = (data) => {
-    setLoading(true);
-    api
-      .post('/sessions', data)
-      .then(({ data }) => {
-        toast.success('Logado com sucesso!');
-        localStorage.setItem('@TOKEN', data.token);
-        localStorage.setItem('@USERID', data.user.id);
-        setUser(data.user);
-        setLoading(false);
-        navigate('/dashboard', { replace: true });
-      })
-      .catch(({ response: { data } }) => {
-        toast.error(data.message);
-        setLoading(false);
-      });
-  };
 
   return (
     <>

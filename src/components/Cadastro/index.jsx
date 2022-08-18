@@ -3,29 +3,17 @@ import logoImg from '../../assets/Logo.png';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { registerUser } from '../../validators/registerUser';
-import api from '../../services/api';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
+import { useContext } from 'react';
+import { UserContext } from '../../Context/UserContext';
 
 const Cadastro = () => {
-  const navigate = useNavigate();
+  const { createUser } = useContext(UserContext);
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ resolver: yupResolver(registerUser) });
-
-  const createUser = (data) => {
-    api
-      .post('users/', data)
-      .then((response) => {
-        toast.success('Usuário criado com sucesso!');
-        navigate('/login', { replace: true });
-      })
-      .catch(({ response: { data } }) => toast.error(data.message));
-    console.log(data);
-  };
 
   return (
     <>
