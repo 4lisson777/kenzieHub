@@ -1,20 +1,20 @@
-import { Container, Select, Form, ErrorMsg, Edit } from './styles';
+import { Container, Select, Form, Buttons, Close } from './styles';
 import { MdClose } from 'react-icons/md';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { AddTech } from '../../validators/addTech';
-import { useContext } from 'react';
+import { EditTech } from '../../validators/EditTech';
+import { useContext, useState } from 'react';
 import { UserContext } from '../../Context/UserContext';
 
 const ModalEditDel = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({ resolver: yupResolver(AddTech) });
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(EditTech),
+  });
 
-  const { editModal, setEditModal, editTech, deleteTech } =
+  const { id, editModal, setEditModal, editTech, deleteTech, techs } =
     useContext(UserContext);
+
+  const [value, setValue] = useState('');
 
   return (
     editModal && (
@@ -22,35 +22,36 @@ const ModalEditDel = () => {
         <div className="modal-box">
           <div>
             <h1>Detalhes da Tecnologia</h1>
-            <button onClick={() => setEditModal(false)}>
+            <Close onClick={() => setEditModal(false)}>
               <MdClose />
-            </button>
+            </Close>
           </div>
           <Form onSubmit={handleSubmit(editTech)}>
-            <label htmlFor="name">Nome</label>
+            <label htmlFor="title">Nome</label>
             <input
               type="text"
               id="title"
               placeholder="Ex: Typescript"
-              {...register('title')}
+              value={techs.find((tech) => tech.id === id).title}
+              disabled
             />
-            <ErrorMsg>{errors.title?.message}</ErrorMsg>
 
             <label htmlFor="status">Selecionar Status</label>
             <Select
               id="status"
-              {...register('status')}
-              defaultValue={{ label: 'Iniciante', value: 'Iniciante' }}
+              {...register('status', {
+                onChange: (e) => setValue(e.target.value),
+              })}
+              defaultValue={techs.find((tech) => tech.id === id).status}
             >
               <option value="Iniciante">Iniciante</option>
               <option value="Intermediário">Intermediário</option>
               <option value="Avançado">Avançado</option>
             </Select>
-            <div className="editTech">
-              <Edit errors={errors} type="submit">
-                Salvar alterações
-              </Edit>
-            </div>
+            <Buttons value={value}>
+              <button type="submit">Salvar Alterações</button>
+              <button onClick={() => deleteTech(id)}>Excluir</button>
+            </Buttons>
           </Form>
         </div>
       </Container>

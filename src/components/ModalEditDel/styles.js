@@ -19,6 +19,7 @@ export const Container = styled.div`
   .modal-box {
     background-color: #635f5f;
     width: 100%;
+    max-width: 370px;
 
     div {
       display: flex;
@@ -35,20 +36,27 @@ export const Container = styled.div`
           font-size: 14px;
         }
       }
+    }
+    @media (min-width: 768px) {
+      max-width: 400px;
 
-      button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-
-        background-color: transparent;
-        color: var(--color-gray-1);
-        border: none;
-        width: 15px;
-        font-size: 20px;
+      div {
+        height: 45px;
       }
     }
   }
+`;
+
+export const Close = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: transparent;
+  color: var(--color-gray-1);
+  border: none;
+  width: 15px;
+  font-size: 20px;
 `;
 
 export const Select = styled.select`
@@ -114,6 +122,7 @@ export const Form = styled.form`
   }
 
   @media (min-width: 768px) {
+    gap: 15px;
     label {
       font: 400 12.18/0px 'Inter';
     }
@@ -133,27 +142,43 @@ export const ErrorMsg = styled.span`
   color: var(--negative);
 `;
 
-export const Edit = styled.button`
-  border: none;
-  border-radius: 4px;
+export const Buttons = styled.section`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+
   width: 100%;
-  padding: 9px 0px;
-  margin: 5px 0;
-  cursor: pointer;
+  margin-top: 5px;
 
-  color: #fff;
-  font: 500 12.8px/21.1px 'Inter';
+  button {
+    border: none;
+    border-radius: 4px;
+    width: 60%;
+    padding: 9px 0px;
+    cursor: pointer;
 
-  ${({ errors }) =>
-    errors.name?.message
-      ? css`
-          background-color: var(--color-primary-Negative);
-        `
-      : css`
-          background-color: var(--color-primary);
-        `}
+    color: #fff;
+    font: 500 12.8px/21.1px 'Inter';
+
+    ${({ value }) =>
+      value
+        ? css`
+            background-color: var(--color-primary);
+          `
+        : css`
+            background-color: var(--color-primary-Negative);
+          `}
+  }
+
+  button + button {
+    width: 40%;
+    background-color: var(--color-gray-1);
+  }
 
   @media (min-width: 768px) {
     font: 500 16px/26.4px 'Inter';
+    margin: 10px 0;
   }
 `;
