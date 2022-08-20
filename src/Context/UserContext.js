@@ -9,9 +9,10 @@ export const ContextProvider = ({ children }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState('');
+  const [techs, setTechs] = useState([]);
   const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(true);
-  const [tech, setTech] = useState(false);
+  const [editModal, setEditModal] = useState(false);
+  const [id, setId] = useState('');
 
   useEffect(() => {
     async function loadUser() {
@@ -24,8 +25,8 @@ export const ContextProvider = ({ children }) => {
           const { data } = await api.get('/profile');
 
           setUser(data);
+          setTechs(data.techs);
         } catch (error) {
-          console.error(error);
           handleLogout();
         }
       }
@@ -33,7 +34,7 @@ export const ContextProvider = ({ children }) => {
     }
 
     loadUser();
-  }, [tech]);
+  }, []);
 
   const createUser = (data) => {
     api
@@ -56,6 +57,7 @@ export const ContextProvider = ({ children }) => {
         api.defaults.headers.Authorization = `Bearer ${data.token}`;
         setUser(data.user);
         setLoading(false);
+        setTechs(data.user.techs);
         navigate('/dashboard', { replace: true });
       })
       .catch(({ response: { data } }) => {
@@ -77,9 +79,9 @@ export const ContextProvider = ({ children }) => {
 
     api
       .post('/users/techs', data)
-      .then((response) => {
+      .then(({ data }) => {
         toast.success('Tecnologia Adicionada!');
-        setTech(!tech);
+        setTechs([...techs, data]);
         setLoading(false);
         setAddModal(false);
       })
@@ -95,10 +97,10 @@ export const ContextProvider = ({ children }) => {
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     api
-      .post('/users/techs', data)
+      .put(`/users/techs/${id}`, data)
       .then((response) => {
         toast.success('Tecnologia Editada!');
-        setTech(!tech);
+        setTechs([...techs.filter((tech) => tech.id !== id), response.data]);
         setLoading(false);
         setEditModal(false);
       })
@@ -108,16 +110,16 @@ export const ContextProvider = ({ children }) => {
       });
   };
 
-  const deleteTech = (data) => {
+  const deleteTech = (id) => {
     setLoading(true);
     const token = localStorage.getItem('@TOKEN');
     api.defaults.headers.Authorization = `Bearer ${token}`;
 
     api
-      .post('/users/techs', data)
+      .delete(`/users/techs/${id}`)
       .then((response) => {
         toast.success('Tecnologia Deletada!');
-        setTech(!tech);
+        setTechs(techs.filter((tech) => tech.id !== id));
         setLoading(false);
         setEditModal(false);
       })
@@ -125,6 +127,11 @@ export const ContextProvider = ({ children }) => {
         toast.error(data.message);
         setLoading(false);
       });
+  };
+
+  const handleEditModal = (idItem) => {
+    setId(idItem);
+    setEditModal(!editModal);
   };
 
   return (
@@ -143,6 +150,9 @@ export const ContextProvider = ({ children }) => {
         setEditModal,
         editTech,
         deleteTech,
+        handleEditModal,
+        id,
+        techs,
       }}
     >
       {children}
