@@ -19,6 +19,7 @@ export const Container = styled.div`
   .modal-box {
     background-color: #635f5f;
     width: 100%;
+    max-width: 370px;
 
     div {
       display: flex;
@@ -46,6 +47,14 @@ export const Container = styled.div`
         border: none;
         width: 15px;
         font-size: 20px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      max-width: 400px;
+
+      div {
+        height: 45px;
       }
     }
   }
@@ -114,6 +123,8 @@ export const Form = styled.form`
   }
 
   @media (min-width: 768px) {
+    gap: 15px;
+
     label {
       font: 400 12.18/0px 'Inter';
     }
@@ -151,5 +162,6 @@ export const CadastrarTech = styled.button`
 
   @media (min-width: 768px) {
     font: 500 16px/26.4px 'Inter';
+    margin: 10px 0;
   }
 `;
