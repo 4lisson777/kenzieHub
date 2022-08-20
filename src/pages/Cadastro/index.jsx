@@ -45,7 +45,7 @@ const Cadastro = () => {
 
             <label htmlFor="password">Senha</label>
             <input
-              type="text"
+              type="password"
               id="password"
               placeholder="Digite aqui sua senha"
               {...register('password')}
@@ -54,7 +54,7 @@ const Cadastro = () => {
 
             <label htmlFor="confirm-password">Confirmar Senha</label>
             <input
-              type="text"
+              type="password"
               id="confirm-password"
               placeholder="Confirme sua senha"
               {...register('confirmPassword')}
