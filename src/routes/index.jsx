@@ -1,7 +1,7 @@
 import { Route, Routes, Navigate } from 'react-router-dom';
-import Cadastro from '../components/Cadastro';
-import Login from '../components/Login';
-import Dashboard from '../components/Dashboard';
+import Cadastro from '../pages/Cadastro';
+import Login from '../pages/Login';
+import Dashboard from '../pages/Dashboard';
 
 const RoutesMain = () => {
   return (
