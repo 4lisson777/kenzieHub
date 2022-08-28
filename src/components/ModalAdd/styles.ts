@@ -1,4 +1,9 @@
+import { FieldErrorsImpl } from 'react-hook-form';
 import styled, { css } from 'styled-components';
+
+interface IErrorsForm {
+  errors: FieldErrorsImpl;
+}
 
 export const Container = styled.div`
   display: flex;
@@ -151,7 +156,7 @@ export const CadastrarTech = styled.button`
   color: #fff;
   font: 500 12.8px/21.1px 'Inter';
 
-  ${({ errors }) =>
+  ${({ errors }: IErrorsForm) =>
     errors.name?.message
       ? css`
           background-color: var(--color-primary-Negative);

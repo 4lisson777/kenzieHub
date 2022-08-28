@@ -1,5 +1,9 @@
 import styled, { css } from 'styled-components';
 
+interface IEnableButton {
+  value: string;
+}
+
 export const Container = styled.div`
   display: flex;
   align-items: center;
@@ -162,7 +166,7 @@ export const Buttons = styled.section`
     color: #fff;
     font: 500 12.8px/21.1px 'Inter';
 
-    ${({ value }) =>
+    ${({ value }: IEnableButton) =>
       value
         ? css`
             background-color: var(--color-primary);

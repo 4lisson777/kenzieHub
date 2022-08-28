@@ -17,17 +17,22 @@ import Loading from '../../components/Loading';
 import { useContext } from 'react';
 import { UserContext } from '../../Context/UserContext';
 
+interface IForm {
+  email: string;
+  password: string;
+}
+
 const Login = () => {
   const { loading, loginUser } = useContext(UserContext);
 
-  const [visibility, setVisibility] = useState('password');
-  const [focus, setFocus] = useState('');
+  const [visibility, setVisibility] = useState<string>('password');
+  const [focus, setFocus] = useState<string>('');
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(userLogin) });
+  } = useForm<IForm>({ resolver: yupResolver(userLogin) });
 
   return (
     <>

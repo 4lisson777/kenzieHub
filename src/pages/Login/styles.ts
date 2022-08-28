@@ -1,5 +1,14 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { FieldErrorsImpl } from 'react-hook-form';
+
+interface IForm {
+  errors: FieldErrorsImpl;
+}
+
+interface IPropsFocus {
+  focus: string;
+}
 
 export const Navbar = styled.nav`
   display: flex;
@@ -99,7 +108,7 @@ export const Input = styled.div`
   padding: 9px 13px;
   background-color: var(--color-gray-2);
   border-radius: 4px;
-  ${({ focus }) =>
+  ${({ focus }: IPropsFocus) =>
     !focus
       ? css`
           border: 1px solid var(--color-gray-4);
@@ -141,7 +150,7 @@ export const Entrar = styled.button`
   color: #fff;
   font: 500 12.8px/21.1px 'Inter';
 
-  ${({ errors }) =>
+  ${({ errors }: IForm) =>
     errors.email?.message || errors.password?.message
       ? css`
           background-color: var(--color-primary-Negative);

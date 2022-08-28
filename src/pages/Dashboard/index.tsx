@@ -8,8 +8,14 @@ import ModalAdd from '../../components/ModalAdd';
 import ModalEditDel from '../../components/ModalEditDel';
 
 const Dashboard = () => {
-  const { handleLogout, user, loading, setAddModal, handleEditModal, techs } =
-    useContext(UserContext);
+  const {
+    handleLogout,
+    user,
+    loading,
+    handleAddModal,
+    handleEditModal,
+    techs,
+  } = useContext(UserContext);
 
   if (loading) {
     return <Loading />;
@@ -31,7 +37,7 @@ const Dashboard = () => {
       <Main>
         <div className="addTech">
           <h2>Tecnologias</h2>
-          <button onClick={() => setAddModal(true)}>+</button>
+          <button onClick={() => handleAddModal()}>+</button>
         </div>
         <ul>
           {techs.length === 0 ? (

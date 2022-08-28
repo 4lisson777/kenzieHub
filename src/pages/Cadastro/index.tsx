@@ -6,6 +6,16 @@ import { registerUser } from '../../validators/registerUser';
 import { useContext } from 'react';
 import { UserContext } from '../../Context/UserContext';
 
+interface IRegisterForm {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  bio: string;
+  contact: string;
+  course_module: string;
+}
+
 const Cadastro = () => {
   const { createUser } = useContext(UserContext);
 
@@ -13,7 +23,7 @@ const Cadastro = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(registerUser) });
+  } = useForm<IRegisterForm>({ resolver: yupResolver(registerUser) });
 
   return (
     <>
@@ -80,11 +90,7 @@ const Cadastro = () => {
             <ErrorMsg>{errors.contact?.message}</ErrorMsg>
 
             <label htmlFor="modulo">Selecionar módulo</label>
-            <Select
-              id="modulo"
-              defaultValue={{ label: 'Primeiro Módulo', value: 1 }}
-              {...register('course_module')}
-            >
+            <Select id="modulo" {...register('course_module')}>
               <option value="Primeiro">Primeiro Módulo</option>
               <option value="Segundo">Segundo Módulo</option>
               <option value="Terceiro">Terceiro Módulo</option>
