@@ -23,7 +23,7 @@ kenzieHub é um site desenvolvido para o usuário listar as tecnologias que ele 
 * React Icons (v.4.4)
 * Framer Motion (v.4.1.17)
 
-## [Ver Demo](https://kenziehub-typescript-it9wliblh-4lisson777.vercel.app/).
+## [Ver Demo](https://kenziehub-typescript-it9wliblh-4lisson777.vercel.app/)
 
 Para rodar o projeto em sua máquina, faça o clone do repositório, entre na pasta criada e rode os seguintes comandos:
 
