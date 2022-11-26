@@ -85,17 +85,13 @@ export const ContextProvider = ({ children }: IContextProviderProps) => {
     async function loadUser() {
       const token = localStorage.getItem('@TOKEN');
 
-      if (token) {
-        try {
-          api.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-          const { data } = await api.get<IUser>('/profile');
-
-          setUser(data);
-          setTechs(data.techs);
-        } catch (error) {
-          handleLogout();
-        }
+      if(token){
+        api.defaults.headers.common.Authorization = `Bearer ${token}`;
+        const { data } = await api.get<IUser>('/profile');
+        setUser(data);
+        setTechs(data.techs);
+      }else{
+        handleLogout();
       }
       setLoading(false);
     }

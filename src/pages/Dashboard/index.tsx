@@ -21,9 +21,12 @@ const Dashboard = () => {
     return <Loading />;
   }
 
+  if(!user){
+    return <Navigate to="/login" replace={true} />
+  }
+
   return (
     <>
-      {!user && <Navigate to="/login" replace={true} />}
       <Navbar>
         <img src={logoImg} alt="Logo KenzieHub" />
         <Botao onClick={handleLogout}>Sair</Botao>
